@@ -21,6 +21,7 @@ async function run() {
     console.log("connected to database");
     const database = client.db("learn-online-database");
     const collection = database.collection("learn-online-collection1");
+    const collection_admin = database.collection("learn-online-collection-admin");
 
     //   get api
 
@@ -93,7 +94,28 @@ async function run() {
       // console.log(result.deletedCount)
     })
 
+    // admin 
 
+    //make admin
+
+
+    app.post("/adminEmail", async (req, res) => {
+        console.log(req.body)
+        const bodyData=req.body;
+          const result = await collection_admin.insertOne(bodyData);
+          console.log(result.insertedId);
+          res.send(result.insertedId)
+    
+        })
+    //get addmin details
+
+    app.get("/adminData", async (req, res) => {
+        const query = {}
+        const dataa = collection_admin.find(query)
+        const data = await dataa.toArray();
+        res.send(data)
+  
+      })
 
 
 
