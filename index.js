@@ -22,6 +22,7 @@ async function run() {
     const database = client.db("learn-online-database");
     const collection = database.collection("learn-online-collection1");
     const collection_admin = database.collection("learn-online-collection-admin");
+    const collection_User = database.collection("userCollection");
 
     //   get api
 
@@ -117,6 +118,45 @@ async function run() {
   
       })
 
+
+      //  user clecked course 
+      app.post("/userSelectedCourse", async (req, res) => {
+        // console.log(req.body)
+        const bodyData=req.body;
+          const result = await collection_User.insertOne(bodyData);
+          // console.log(result.insertedId);
+          res.send(result.insertedId)
+    
+        })
+
+
+        app.get("/userSelectedCourse", async (req, res) => {
+          const query = {}
+          const dataa = collection_User.find(query)
+          const data = await dataa.toArray();
+          res.send(data)
+    
+        })
+
+        app.delete("/userSelectedCourse/:id", async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: ObjectId(id) }
+          const result = await collection_User.deleteOne(query);
+          // console.log("deleting user with id ",id);
+          // res.json(1)
+          res.send(result);
+          // console.log(result.deletedCount)
+        })
+
+        app.delete("/userSelectedCourse", async (req, res) => {
+          console.log(req.body);
+          const result = await collection_User.deleteMany({});
+          // console.log("deleting user with id ",id);
+          // res.json(1)
+          res.send(result);
+          // console.log(result.deletedCount)
+        })
+    
 
 
   } finally {
