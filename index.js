@@ -65,7 +65,7 @@ async function run() {
        const options = { upsert: true };
        const updateDoc = {
         $set: {
-            difficulty:updatedUser.difficulty,
+            difficulty:updatedUser.difficulty_label,
             cost:updatedUser.cost,
             definitions:updatedUser.definitions,
             durations:updatedUser.durations,
@@ -77,7 +77,7 @@ async function run() {
       const result = await collection.updateOne(filter, updateDoc,options);
       res.send(result)//res.json(result)
         // console.log("result : ",result);
-        // console.log(req.body);
+        console.log(req.body);
     })
 
 
