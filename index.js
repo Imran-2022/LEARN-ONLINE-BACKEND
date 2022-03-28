@@ -34,6 +34,14 @@ async function run() {
     })
 
 
+    //get single api 
+
+    app.get("/data/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) }
+      const data = await collection.findOne(query)
+      res.send(data)// or res.json(data)
+    })
 
 
     //   post api 
@@ -48,6 +56,42 @@ async function run() {
 
     })
     //   update api
+
+
+    app.put("/data/:id",async(req, res)=>{
+        const id =req.params.id;
+       const updatedUser=req.body;
+       const filter = {_id:ObjectId(id)};
+       const options = { upsert: true };
+       const updateDoc = {
+        $set: {
+            difficulty:updatedUser.difficulty,
+            cost:updatedUser.cost,
+            definitions:updatedUser.definitions,
+            durations:updatedUser.durations,
+            img:updatedUser.img,
+            title:updatedUser.title,
+
+        },
+      };
+      const result = await collection.updateOne(filter, updateDoc,options);
+      res.send(result)//res.json(result)
+        // console.log("result : ",result);
+        // console.log(req.body);
+    })
+
+
+    //   delete api
+
+    app.delete("/data/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) }
+      const result = await collection.deleteOne(query);
+      // console.log("deleting user with id ",id);
+      // res.json(1)
+      res.send(result);
+      // console.log(result.deletedCount)
+    })
 
 
 
