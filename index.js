@@ -140,9 +140,12 @@ async function run() {
 
         app.delete("/userSelectedCourse/:id", async (req, res) => {
           const id = req.params.id;
+          // const query = { _id:id}
           const query = { _id: ObjectId(id) }
+          console.log("query",query)
           const result = await collection_User.deleteOne(query);
-          // console.log("deleting user with id ",id);
+          console.log("deleting user with id ",id);
+          console.log(result);
           // res.json(1)
           res.send(result);
           // console.log(result.deletedCount)
