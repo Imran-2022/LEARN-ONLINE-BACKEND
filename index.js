@@ -8,6 +8,7 @@ app.use(express.json())
 require('dotenv').config()
 const port = process.env.PORT || 8080;
 
+
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 console.log("first",DB_USER,DB_PASSWORD)
@@ -151,15 +152,18 @@ async function run() {
           // console.log(result.deletedCount)
         })
 
-        app.delete("/userSelectedCourse", async (req, res) => {
-          console.log(req.body);
-          const result = await collection_User.deleteMany({});
+        app.delete("/userSelectedCourse/user/:email", async (req, res) => {
+          console.log(req.params.email);
+          const query = { email: req.params.email };
+          // const result = await collection_User.find(query);
+          // const collect=await result.toArray();
+          // console.log(collect)
+          const result = await collection_User.deleteMany(query);
           // console.log("deleting user with id ",id);
           // res.json(1)
           res.send(result);
           // console.log(result.deletedCount)
         })
-    
 
 
   } finally {
